@@ -36,6 +36,12 @@ A lot of things honestly. Probably get all of the existing functionality in the 
 ## Setup
 The following setup has been tested on Ubuntu 16.04 Xenial on a virtual private server. It should be functional on other UNIX type environments. 
 
+### Mac OS X
+
+Using pipenv, installing `flask-ask` will need some flags:
+`LDFLAGS="-L/usr/local/opt/openssl/lib" CPPFLAGS="-I/usr/local/opt/openssl/include" PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig" pipenv install`
+
+
 ### Start a local development server
 This server must be running at all times and the webserver involved must also be run at all times. That is outside the scope of this article, I recommend looking into options such as 'screen' or 'circus' for running jobs in the background with monitoring.
 
