@@ -106,4 +106,3 @@ lib64
 pyvenv.cfg
 share/
 pip-selfcheck.json
-config.py

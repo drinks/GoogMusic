@@ -4,10 +4,10 @@ from fuzzywuzzy import fuzz, process
 
 @ask.launch
 def login():
-    text = 'Welcome to Goog Music ' \
+    text = 'Welcome to Google Music ' \
            'Try asking me to play a song'
-    prompt = 'For example say, play music by The Wet Secrets'
-    return question(text).reprompt(prompt).simple_card(title='Welcome to GoogMusic!', content='Try asking me to play a song')
+    prompt = 'For example say, play music by Nirvana'
+    return question(text).reprompt(prompt).simple_card(title='Welcome to Google Music!', content='Try asking me to play a song')
 
 @ask.intent("GoogMusicPlaySongIntent")
 def play_song(song_name, artist_name):

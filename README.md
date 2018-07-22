@@ -42,7 +42,7 @@ Using pipenv, installing `flask-ask` will need some flags:
 `LDFLAGS="-L/usr/local/opt/openssl/lib" CPPFLAGS="-I/usr/local/opt/openssl/include" PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig" pipenv install`
 
 
-### Start a local development server
+### Set up a local development server
 This server must be running at all times and the webserver involved must also be run at all times. That is outside the scope of this article, I recommend looking into options such as 'screen' or 'circus' for running jobs in the background with monitoring.
 
 Begin by cloning the repository to your server:
@@ -51,24 +51,26 @@ Begin by cloning the repository to your server:
 $ git clone https://github.com/litobro/GoogMusic.git
 ```
 
-Ensure you have Python 3 installed and `cd` into the directory. I highly recommend running this script inside of a virtual environment. 
+Install the brewfile
 
 ```bash
-# Run this to create a virtual environment and activate it
-$ python3 -m venv .
-$ source bin/activate
-
-# Continue here, or begin here to skip creating a virtual environment
-$ pip3 install -r requirements.txt
+brew bundle
 ```
 
-This may take some time, allow the requirements to install, it is required to setup a configuration file after it has completed. Also in the root of the directory create a file called `config.py` using `touch config.py`. It should contain these variables:
+Install python 3.6.6 and build the bundle.
+
+```bash
+echo 'if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi' >> ~/.bash_profile
+source ~/.bash_profile
+pyenv install 3.6.6
+pipenv install
+```
+
+Create a `.env` file and add the required configuration:
 
 ```
-# Google Credentials
 GOOGLE_EMAIL='YOUR EMAIL HERE'
 GOOGLE_PASSWORD='YOUR PASSWORD HERE'
-
 ANDROID_ID='A VALID AND REGISTERED MOBILE_DEVICE ID HERE'
 ```
 
@@ -77,9 +79,16 @@ As with the original GeeMusic skill, I *highly recommend* you enable 2-factor au
 Your Android_ID can be extracted from your google music webpage which shows registered devices. Simply inspect each device listed in your web browser and view the source, the ID will make itself evident in the list. 
 
 ### Run the local development server
-At this time, you can try running the server using `python3 server.py`. It should launch without issue using flask. 
+Activate your pipenv environment and start the server:
+
+```bash
+pipenv shell
+python server.py
+```
 
 ## Create the development Skill on Amazon
+
+**TODO: This is no longer accurate.**
 
 Open up the [Alexa Dashboard](https://developer.amazon.com/edw/home.html), click "Get Started" in the **Alexa Skills Kit** box. Then click on the yellow "Add a New Skill" button in the top right corner.
 
