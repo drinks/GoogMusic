@@ -38,9 +38,9 @@ def play_artist(artist_name):
 
     music_queue.clear()
     for track in top_tracks:
-        print("Track: %s", track)
         music_queue.enqueue(track)
 
+    print('Playing %s' % client.get_stream_url(music_queue.current()['storeId']))
     return audio('Playing top 25 tracks by %s' % artist_info['name']).play(client.get_stream_url(music_queue.current()['storeId']))
 
 @ask.intent('GoogMusicPlayGenreRadioIntent')
