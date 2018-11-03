@@ -8,6 +8,7 @@ flask = "*"
 flask-ask = { git = 'https://github.com/johnwheeler/flask-ask.git', ref = 'master' }
 fuzzywuzzy = "*"
 gmusicapi = "*"
+mechanicalsoup = "*"
 
 [dev-packages]
 
