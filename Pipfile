@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 flask = "*"
 flask-ask = { git = 'https://github.com/johnwheeler/flask-ask.git', ref = 'master' }
+python-Levenshtein = "*"
 fuzzywuzzy = "*"
 gmusicapi = "*"
 mechanicalsoup = "*"
