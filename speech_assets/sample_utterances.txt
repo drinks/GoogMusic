@@ -11,6 +11,11 @@ GoogMusicPlayArtistIntent Play songs by {artist_name}
 GoogMusicPlayArtistIntent Play {artist_name} songs
 GoogMusicPlayArtistIntent Play music by {artist_name}
 
-GoogMusicPlayGenreRadioIntent Play {genre_name} radio
+GoogMusicSearchRadioIntent Start a radio station with {query}
+GoogMusicSearchRadioIntent Start a station with {query}
+GoogMusicSearchRadioIntent Start radio for {query}
+GoogMusicSearchRadioIntent Play {query} radio
+
+GoogMusicPlayGenreRadioIntent Play genre {genre_name} radio
 GoogMusicPlayGenreRadioIntent Start radio for genre {genre_name}
 GoogMusicPlayGenreRadioIntent Start genre radio for {genre_name}

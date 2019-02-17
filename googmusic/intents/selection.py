@@ -40,7 +40,6 @@ def play_artist(artist_name):
     for track in top_tracks:
         music_queue.enqueue(track)
 
-    print('Playing %s' % client.get_stream_url(music_queue.current()['storeId']))
     return audio('Playing top 25 tracks by %s' % artist_info['name']).play(client.get_stream_url(music_queue.current()['storeId']))
 
 @ask.intent('GoogMusicPlayGenreRadioIntent')
@@ -65,3 +64,25 @@ def play_genre_radio(genre_name):
         #print(track['nid'])
 
     return audio('You have selected %s radio' % str(g_id)).play(client.get_stream_url(music_queue.current()['storeId']))
+
+@ask.intent('GoogMusicSearchRadioIntent')
+def play_search_radio(query):
+    search_hits = client.search(query, max_results=25)
+    stations = search_hits['station_hits']
+
+    station = None
+
+    for s in stations.reverse():
+        if fuzz.partial_ratio(('%s radio' % query), s['name']) > 75:
+            station = s
+
+    if station is None:
+        return statement('Sorry, no results for %s' % query)
+
+    tracks = client.get_station_tracks(station['seed']['curatedStationId'], num_tracks=500)
+    music_queue.clear()
+    for track in tracks:
+        music_queue.enqueue(track)
+
+    return audio('Playing %s radio' % station['name']).play(client.get_stream_url(music_queue.current()['storeId']))
+

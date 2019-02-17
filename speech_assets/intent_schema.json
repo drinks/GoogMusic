@@ -36,6 +36,15 @@
         }
       ],
       "intent": "GoogMusicPlayGenreRadioIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "query",
+          "type": "AMAZON.SearchQuery"
+        }
+      ],
+      "intent": "GoogMusicSearchRadioIntent"
     }
   ]
 }
