@@ -78,7 +78,7 @@ def play_search_radio(query):
 
     for s in stations:
         quality = fuzz.partial_ratio(key, s['station']['name'])
-        print("%s, quality %d" % s['station']['name'], quality)
+        print("{}, quality {}".format(s['station']['name'], quality))
         if quality > 75:
             station = s['station']
 
