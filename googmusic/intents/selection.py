@@ -94,7 +94,7 @@ def play_search_radio(query):
     tracks = client.get_station_tracks(station['seed'][matcher], num_tracks=500)
     music_queue.clear()
     for track in tracks:
-        print track
+        print(track)
         music_queue.enqueue(track)
 
     return audio('Playing %s radio' % station['name']).play(client.get_stream_url(music_queue.current()['storeId']))
