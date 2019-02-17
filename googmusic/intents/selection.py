@@ -67,19 +67,28 @@ def play_genre_radio(genre_name):
 
 @ask.intent('GoogMusicSearchRadioIntent')
 def play_search_radio(query):
-    search_hits = client.search(query, max_results=25)
+    search_hits = client.search(query, max_results=2)
     stations = search_hits['station_hits']
 
     station = None
+    key = query
+    split = ' by '
+    if split in key:
+        key = key.split(split)[0]
 
-    for s in stations.reverse():
-        if fuzz.partial_ratio(('%s radio' % query), s['name']) > 75:
-            station = s
+    for s in stations:
+        if fuzz.partial_ratio(key, s['station']['name']) > 75:
+            station = s['station']
 
     if station is None:
         return statement('Sorry, no results for %s' % query)
 
-    tracks = client.get_station_tracks(station['seed']['curatedStationId'], num_tracks=500)
+    matcher = [key for key in station['seed'].keys() if 'Id' in key][0]
+
+    if matcher is None:
+        return statement('Sorry, no results for %s' % query)
+
+    tracks = client.get_station_tracks(station['seed'][matcher], num_tracks=500)
     music_queue.clear()
     for track in tracks:
         music_queue.enqueue(track)
