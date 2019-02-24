@@ -92,6 +92,7 @@ def play_search_radio(query):
         return statement('Sorry, no results for %s' % query)
 
     tracks = client.get_station_tracks(station['seed'][matcher], num_tracks=500)
+    print(tracks)
     music_queue.clear()
     for track in tracks:
         print(track)
