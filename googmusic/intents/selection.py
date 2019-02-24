@@ -75,8 +75,8 @@ def play_search_radio(query):
     split = ' by '
     if split in key:
         key = key.split(split)[0]
+    station_name = '{} Radio'.format(key)
 
-    stations.reverse()
     for s in stations:
         quality = fuzz.ratio(key, s['station']['name'])
         print("{} vs {}, quality {}".format(s['station']['name'], key, quality))
@@ -91,13 +91,13 @@ def play_search_radio(query):
     if matcher is None:
         return statement('Sorry, no results for %s' % query)
 
-    tracks = client.get_station_tracks(station['seed'][matcher], num_tracks=500)
-    print(station)
-    print(matcher)
-    print(tracks)
+    id_kwargs = {
+        matcher.replace('Id', '_id'): station['seed'][matcher]
+    }
+    station_id = client.create_station(station_name, **id_kwargs)
+    tracks = client.get_station_tracks(station_id, num_tracks=200)
     music_queue.clear()
     for track in tracks:
-        print(track)
         music_queue.enqueue(track)
 
     return audio('Playing %s radio' % station['name']).play(client.get_stream_url(music_queue.current()['storeId']))
