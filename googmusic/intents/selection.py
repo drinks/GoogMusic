@@ -82,6 +82,7 @@ def play_search_radio(query):
         print("{} vs {}, quality {}".format(s['station']['name'], key, quality))
         if quality > 70:
             station = s['station']
+            break
 
     if station is None:
         return statement('Sorry, no results for %s' % query)

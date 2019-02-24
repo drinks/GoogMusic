@@ -17,7 +17,9 @@ def resume():
 def nearly_finished():
     if len(music_queue) > 0:
         next_id = music_queue.next()['nid']
+        print('Enqueuing next song with id: %s' % next_id)
 
         stream = client.get_stream_url(next_id)
+        print('Got stream url: %s' % stream)
 
         return audio().enqueue(stream)
