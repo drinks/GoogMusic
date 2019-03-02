@@ -41,14 +41,14 @@ def started(token, offset):
 
 @ask.on_playback_nearly_finished()
 def nearly_finished():
-    stream = _get_next()
-    if stream is None:
-        return empty_response()
-    return audio().enqueue(stream)
+    return empty_response()
 
 @ask.on_playback_finished()
 def finished():
-    return empty_response()
+    stream = _get_next()
+    if stream is None:
+        return audio('That was the last song').stop()
+    return audio().play(stream)
 
 def _get_next():
     if len(music_queue) > 0:
