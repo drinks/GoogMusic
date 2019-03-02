@@ -15,7 +15,7 @@ def resume():
 
 @ask.intent("AMAZON.NextIntent")
 def play_next():
-    stream = _get_prev()
+    stream = _get_next()
     if stream is None:
         return audio('That was the last song').stop()
     return audio().play(stream)
