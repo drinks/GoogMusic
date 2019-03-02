@@ -26,7 +26,7 @@ def prev():
         stream = client.get_stream_url(prev_id)
         print('Got stream url: %s' % stream)
 
-        return audio().enqueue(stream)
+        return audio().enqueue(stream).play()
 
 @ask.on_playback_nearly_finished()
 def get_next():
