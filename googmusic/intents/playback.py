@@ -30,7 +30,7 @@ def prev():
 
 @ask.on_playback_stopped()
 def stopped(token, offset):
-    queue.paused_offset = offset
+    music_queue.paused_offset = offset
     app.logger.debug("Playback of stream with token {} stopped at {}".format(token, offset))
     return empty_response()
 
