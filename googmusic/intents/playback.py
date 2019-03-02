@@ -14,6 +14,7 @@ def resume():
     return audio('Resuming').resume()
 
 @ask.intent("AMAZON.NextIntent")
+@ask.on_playback_nearly_finished()
 def next():
     if len(music_queue) > 0:
         next_id = music_queue.next()['nid']
@@ -34,11 +35,3 @@ def prev():
         print('Got stream url: %s' % stream)
 
         return audio().enqueue(stream)
-
-@ask.on_playback_nearly_finished()
-def nearly_finished():
-    next()
-
-@ask.on_playback_finished()
-def finished():
-    pass

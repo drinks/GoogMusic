@@ -4,7 +4,7 @@ from fuzzywuzzy import fuzz, process
 
 @ask.launch
 def login():
-    text = 'Welcome to Google Music.' \
+    text = 'Welcome to Google Music. ' \
            'Try asking me to play a song'
     prompt = 'For example say, play music by Nirvana'
     return question(text).reprompt(prompt).simple_card(title='Welcome to Google Music!', content='Try asking me to play a song')
