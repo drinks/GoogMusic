@@ -16,19 +16,22 @@ def resume():
 @ask.intent("AMAZON.NextIntent")
 def play_next():
     stream = _get_prev()
-    return audio('That was the last song').stop() if stream is None
+    if stream is None:
+        return audio('That was the last song').stop()
     return audio().play(stream)
 
 @ask.intent("AMAZON.PreviousIntent")
 def prev():
     stream = _get_prev()
-    return audio('That was the first song').stop() if stream is None
+    if stream is None:
+        return audio('That was the first song').stop()
     return audio().play(stream)
 
 @ask.on_playback_nearly_finished()
 def enqueue_next():
     stream = _get_next()
-    return audio().stop() if stream is None
+    if stream is None:
+        return audio().stop()
     return audio().enqueue(stream)
 
 def _get_next():
