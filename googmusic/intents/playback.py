@@ -13,8 +13,8 @@ def pause():
 def resume():
     return audio('Resuming').resume()
 
-@ask.on_playback_nearly_finished()
-def nearly_finished():
+@ask.intent("AMAZON.NextIntent")
+def next():
     if len(music_queue) > 0:
         next_id = music_queue.next()['nid']
         print('Enqueuing next song with id: %s' % next_id)
@@ -23,3 +23,22 @@ def nearly_finished():
         print('Got stream url: %s' % stream)
 
         return audio().enqueue(stream)
+
+@ask.intent("AMAZON.PreviousIntent")
+def prev():
+    if len(music_queue) > 0:
+        prev_id = music_queue.prev()['nid']
+        print('Enqueuing previous song with id: %s' % prev_id)
+
+        stream = client.get_stream_url(prev_id)
+        print('Got stream url: %s' % stream)
+
+        return audio().enqueue(stream)
+
+@ask.on_playback_nearly_finished()
+def nearly_finished():
+    next()
+
+@ask.on_playback_finished()
+def finished():
+    pass
