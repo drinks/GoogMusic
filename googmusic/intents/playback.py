@@ -27,12 +27,27 @@ def prev():
         return audio('That was the first song').stop()
     return audio().play(stream)
 
+@ask.on_playback_stopped()
+def stopped(token, offset):
+    queue.paused_offset = offset
+    app.logger.debug("Playback of stream with token {} stopped at {}".format(token, offset))
+    return empty_response()
+
+@ask.on_playback_started()
+def started(token, offset):
+    app.logger.debug("Playback of stream with token {} started from {}".format(token, offset))
+    return empty_response()
+
 @ask.on_playback_nearly_finished()
-def enqueue_next():
+def nearly_finished():
     stream = _get_next()
     if stream is None:
-        return audio().stop()
+        return empty_response()
     return audio().enqueue(stream)
+
+@ask.on_playback_finished()
+def finished():
+    return empty_response()
 
 def _get_next():
     if len(music_queue) > 0:
@@ -49,3 +64,6 @@ def _get_prev():
         stream = client.get_stream_url(prev_id)
         print('Got stream url: %s' % stream)
         return stream
+
+def empty_response():
+    return json.dumps({"response": {}, "version": "1.0"}), 200

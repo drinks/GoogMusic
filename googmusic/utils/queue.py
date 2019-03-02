@@ -4,6 +4,7 @@ class MusicQueue(object):
     _queue = []
     _index = None
     _loop = False
+    paused_offset = 0
 
     def __init__(self):
         pass

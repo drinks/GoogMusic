@@ -67,9 +67,7 @@ def play_genre_radio(genre_name):
 
 @ask.intent('GoogMusicSearchRadioIntent')
 def play_search_radio(query):
-    search_hits = client.search(query, max_results=2)
-    stations = search_hits['station_hits']
-
+    stations = musicman._search('station', query)
     station = None
     key = query
     split = ' by '
@@ -78,10 +76,10 @@ def play_search_radio(query):
     station_name = '{} Radio'.format(key)
 
     for s in stations:
-        quality = fuzz.ratio(key, s['station']['name'])
-        print("{} vs {}, quality {}".format(s['station']['name'], key, quality))
+        quality = fuzz.ratio(key, s['name'])
+        print("{} vs {}, quality {}".format(s['name'], key, quality))
         if quality > 70:
-            station = s['station']
+            station = s
             break
 
     if station is None:
