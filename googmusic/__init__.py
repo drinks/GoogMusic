@@ -7,7 +7,6 @@ app.config.from_object('config')
 
 @app.before_request
 def log_request_info():
-    app.logger.debug('Headers: %s', request.headers)
     app.logger.debug('Body: %s', request.get_data())
 
 ask = Ask(app, '/alexa')

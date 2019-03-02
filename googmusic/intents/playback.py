@@ -1,5 +1,5 @@
 from flask_ask import statement, audio
-from googmusic import ask, music_queue, client
+from googmusic import app, ask, music_queue, client
 
 @ask.intent('AMAZON.CancelIntent')
 def cancel():
@@ -52,17 +52,17 @@ def finished():
 def _get_next():
     if len(music_queue) > 0:
         next_id = music_queue.next()['nid']
-        print('Finding next song with id: %s' % next_id)
+        app.logger.debug("Finding the next song with id: {}".format(next_id))
         stream = client.get_stream_url(next_id)
-        print('Got stream url: %s' % stream)
+        app.logger.debug("Got stream url: {}".format(stream))
         return stream
 
 def _get_prev():
     if len(music_queue) > 0:
         prev_id = music_queue.prev()['nid']
-        print('Finding previous song with id: %s' % prev_id)
+        app.logger.debug("Finding the previous song with the id: {}".format(prev_id))
         stream = client.get_stream_url(prev_id)
-        print('Got stream url: %s' % stream)
+        app.logger.debug("Got stream url: {}".format(stream))
         return stream
 
 def empty_response():
