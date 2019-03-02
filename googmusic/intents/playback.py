@@ -37,8 +37,7 @@ def enqueue_next():
 def _get_next():
     if len(music_queue) > 0:
         next_id = music_queue.next()['nid']
-        print('Enqueuing next song with id: %s' % next_id)
-
+        print('Finding next song with id: %s' % next_id)
         stream = client.get_stream_url(next_id)
         print('Got stream url: %s' % stream)
         return stream
@@ -46,8 +45,7 @@ def _get_next():
 def _get_prev():
     if len(music_queue) > 0:
         prev_id = music_queue.prev()['nid']
-        print('Enqueuing previous song with id: %s' % prev_id)
-
+        print('Finding previous song with id: %s' % prev_id)
         stream = client.get_stream_url(prev_id)
         print('Got stream url: %s' % stream)
         return stream
