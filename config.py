@@ -1,5 +1,8 @@
 import os
 
+ANDROID_ID = os.environ['ANDROID_ID']
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_BUCKET_NAME = os.environ['AWS_BUCKET_NAME']
 GOOGLE_EMAIL = os.environ['GOOGLE_EMAIL']
 GOOGLE_PASSWORD = os.environ['GOOGLE_PASSWORD']
-ANDROID_ID = os.environ['ANDROID_ID']

@@ -4,12 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+boto3 = "*"
 flask = "*"
 flask-ask = { git = 'https://github.com/johnwheeler/flask-ask.git', ref = 'master' }
 python-Levenshtein = "*"
 fuzzywuzzy = "*"
 gmusicapi = "*"
 mechanicalsoup = "*"
+requests = "*"
 
 [dev-packages]
 

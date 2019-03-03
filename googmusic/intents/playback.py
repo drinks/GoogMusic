@@ -1,6 +1,9 @@
 import json
 from flask_ask import statement, audio
 from googmusic import app, ask, music_queue, client
+from googmusic.utils.s3manager import S3Manager
+
+s3 = S3Manager(app.config['AWS_BUCKET_NAME'])
 
 @ask.intent('AMAZON.CancelIntent')
 def cancel():
@@ -55,16 +58,18 @@ def _get_next():
         next_id = music_queue.next()['nid']
         app.logger.debug("Finding the next song with id: {}".format(next_id))
         stream = client.get_stream_url(next_id)
-        app.logger.debug("Got stream url: {}".format(stream))
-        return stream
+        s3_url = s3.ensure_file_exists(next_id, stream)
+        app.logger.debug("Got s3 url: {} for stream url: {}".format(s3_url, stream))
+        return s3_url
 
 def _get_prev():
     if len(music_queue) > 0:
         prev_id = music_queue.prev()['nid']
         app.logger.debug("Finding the previous song with the id: {}".format(prev_id))
         stream = client.get_stream_url(prev_id)
-        app.logger.debug("Got stream url: {}".format(stream))
-        return stream
+        s3_url = s3.ensure_file_exists(prev_id, stream)
+        app.logger.debug("Got s3_url: {} for stream url: {}".format(s3_url, stream))
+        return s3_url
 
 def empty_response():
     return json.dumps({"response": {}, "version": "1.0"}), 200
