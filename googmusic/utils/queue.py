@@ -26,6 +26,13 @@ class MusicQueue(object):
             return self._queue[self._index]
         return None
 
+    def up_next(self):
+        if len(self._queue) >= self._index + 1:
+            return self._queue[self._index + 1]
+        elif self._loop:
+            return self._queue[0]
+        return None
+
     def prev(self):
         if self._index <= 0 and self._loop:
             self._index = len(self._queue) + 1

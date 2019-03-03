@@ -18,18 +18,25 @@ def resume():
     return audio('Resuming').resume()
 
 @ask.intent("AMAZON.NextIntent")
-def play_next():
-    stream = _get_next()
-    if stream is None:
+def next():
+    song = music_queue.next()
+    if song is None:
         return audio('That was the last song').stop()
-    return audio().play(stream)
+    url = _get_and_enqueue(song)
+    return audio().play(url)
 
 @ask.intent("AMAZON.PreviousIntent")
 def prev():
-    stream = _get_prev()
-    if stream is None:
+    song = music_queue.prev()
+    if song is None:
         return audio('That was the first song').stop()
-    return audio().play(stream)
+    url = _get_and_enqueue(song)
+    return audio().play(url)
+
+@ask.intent("GoogMusicCurrentSongIntent")
+def identify():
+    song = music_queue.current()
+    return audio("This is {} by {}".format(song['title'], song['artist']))
 
 @ask.on_playback_stopped()
 def stopped(token, offset):
@@ -44,32 +51,24 @@ def started(token, offset):
 
 @ask.on_playback_nearly_finished()
 def nearly_finished():
-    stream = _get_next()
-    if stream is None:
+    song = music_queue.up_next()
+    if song is None:
         return empty_response()
-    return audio().enqueue(stream)
+    url = _get_and_enqueue(song)
+    return audio().enqueue(url)
 
 @ask.on_playback_finished()
 def finished():
+    music_queue.next()
     return empty_response()
 
-def _get_next():
-    if len(music_queue) > 0:
-        next_id = music_queue.next()['nid']
-        app.logger.debug("Finding the next song with id: {}".format(next_id))
-        stream = client.get_stream_url(next_id)
-        s3_url = s3.ensure_file_exists(next_id, stream)
-        app.logger.debug("Got s3 url: {} for stream url: {}".format(s3_url, stream))
-        return s3_url
-
-def _get_prev():
-    if len(music_queue) > 0:
-        prev_id = music_queue.prev()['nid']
-        app.logger.debug("Finding the previous song with the id: {}".format(prev_id))
-        stream = client.get_stream_url(prev_id)
-        s3_url = s3.ensure_file_exists(prev_id, stream)
-        app.logger.debug("Got s3_url: {} for stream url: {}".format(s3_url, stream))
-        return s3_url
+def _get_and_enqueue(song):
+    nid = song['nid']
+    app.logger.debug("Finding song with id{}".format(nid))
+    stream = client.get_stream_url(nid)
+    s3_url = s3.ensure_file_exists(nid, stream)
+    app.logger.debug("Got s3_url: {} for stream url: {}".format(s3_url, stream))
+    return s3_url
 
 def empty_response():
     return json.dumps({"response": {}, "version": "1.0"}), 200
